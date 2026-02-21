@@ -1,11 +1,305 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portafolio Profesional</title>
+    <title>Portafolio | Joselyn Mendoza</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #1a141a;
+            --bg-card: #2d2433;
+            --accent-gradient: linear-gradient(90deg, #d98cb3, #7a5c85);
+            --accent-pink: #d98cb3;
+            --text-main: #f5f0f6;
+            --text-muted: #b5a8bc;
+            --border-color: #3d3145;
+            --nav-bg: rgba(26, 20, 26, 0.98);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', system-ui, sans-serif;
+            margin: 0;
+            padding-top: 70px;
+            line-height: 1.6;
+            overflow-x: hidden; /* Evita scroll horizontal */
+        }
+
+        /* --- NAVEGACIÓN RESPONSIVA --- */
+        nav {
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            height: 70px;
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1.5rem;
+        }
+
+        .logo { font-weight: bold; font-size: 1.4rem; color: var(--text-main); text-decoration: none; z-index: 1001; }
+        .logo span { color: var(--accent-pink); }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--accent-pink); }
+
+        .menu-toggle { display: none; flex-direction: column; cursor: pointer; z-index: 1001; gap: 5px; }
+        .menu-toggle span { width: 28px; height: 3px; background: var(--text-main); border-radius: 2px; transition: 0.4s; }
+
+        /* Tablet y Móvil */
+        @media (max-width: 850px) {
+            .menu-toggle { display: flex; }
+            .nav-links {
+                position: fixed;
+                right: -100%;
+                top: 0;
+                height: 100vh;
+                width: 100%; /* Ocupa toda la pantalla en móvil */
+                background: var(--bg-dark);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2.5rem;
+            }
+            .nav-links.active { right: 0; }
+            .nav-links a { font-size: 1.5rem; }
+        }
+
+        /* --- CONTENEDOR GLOBAL --- */
+        .container { 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            padding: 0 1.5rem; 
+            box-sizing: border-box;
+        }
+
+        /* --- HERO SECTION --- */
+        header { 
+            min-height: 80vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .hero-title { 
+            font-size: clamp(2.5rem, 8vw, 4rem); /* Título fluido según el tamaño de pantalla */
+            margin: 0; 
+            background: var(--accent-gradient); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+        }
+
+        .hero-subtitle { font-size: clamp(1rem, 4vw, 1.25rem); color: var(--text-muted); max-width: 600px; margin-top: 1rem; }
+
+        /* --- SECCIONES --- */
+        section { padding: 4rem 0; }
+        .section-title { text-align: center; font-size: clamp(1.8rem, 5vw, 2.5rem); margin-bottom: 3rem; }
+
+        /* GRID DE SKILLS (Autoadaptable) */
+        .skills-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); 
+            gap: 1.5rem; 
+        }
+
+        .skill-card { 
+            background: var(--bg-card); 
+            padding: 2rem 1rem; 
+            border-radius: 16px; 
+            text-align: center; 
+            border: 1px solid var(--border-color);
+            transition: 0.3s;
+        }
+
+        .skill-card:hover { border-color: var(--accent-pink); transform: translateY(-5px); }
+        .skill-card i { font-size: 2.5rem; color: var(--accent-pink); margin-bottom: 1rem; display: block; }
+
+        /* GRID DE PROYECTOS */
+        .portfolio-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 2rem; 
+        }
+
+        .project-card { 
+            background: var(--bg-card); 
+            border-radius: 20px; 
+            overflow: hidden; 
+            border: 1px solid var(--border-color); 
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-img { height: 180px; background: #231b28; display: flex; align-items: center; justify-content: center; }
+        .project-content { padding: 1.5rem; flex-grow: 1; }
+        .project-content h3 { color: var(--accent-pink); margin-top: 0; }
+
+        /* FORMULARIO DE CONTACTO */
+        .contact-form { 
+            background: var(--bg-card); 
+            padding: clamp(1.5rem, 5vw, 3rem); 
+            border-radius: 24px; 
+            max-width: 650px; 
+            margin: 0 auto; 
+            border: 1px solid var(--border-color); 
+        }
+
+        .form-group { display: flex; gap: 1rem; margin-bottom: 1rem; }
+        input, textarea { 
+            width: 100%; 
+            padding: 1.1rem; 
+            background: var(--bg-dark); 
+            border: 1px solid var(--border-color); 
+            border-radius: 10px; 
+            color: white; 
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .form-group { flex-direction: column; } /* Inputs uno debajo de otro en móvil */
+        }
+
+        button { 
+            background: var(--accent-gradient); 
+            color: white; 
+            border: none; 
+            padding: 1.2rem; 
+            border-radius: 50px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            width: 100%; 
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+
+        footer { text-align: center; padding: 4rem 1.5rem; color: var(--text-muted); border-top: 1px solid var(--border-color); margin-top: 2rem; }
+    </style>
 </head>
 <body>
-    <h1>Portafolio</h1>
+
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">Joselyn<span>Mendoza</span></a>
+            <div class="menu-toggle" id="mobile-menu">
+                <span></span><span></span><span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#portfolio">Proyectos</a></li>
+                <li><a href="#contact">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1 class="hero-title">Full Stack Developer</h1>
+            <p class="hero-subtitle">Transformando ideas en experiencias digitales con código limpio y diseño minimalista.</p>
+        </header>
+
+        <section id="skills">
+            <h2 class="section-title">My Toolkit</h2>
+            <div class="skills-grid">
+                <div class="skill-card"><i class="fab fa-html5"></i><span>HTML5</span></div>
+                <div class="skill-card"><i class="fab fa-css3-alt"></i><span>CSS3</span></div>
+                <div class="skill-card"><i class="fab fa-js"></i><span>JavaScript</span></div>
+                <div class="skill-card"><i class="fab fa-bootstrap"></i><span>Bootstrap</span></div>
+                <div class="skill-card"><i class="fab fa-figma"></i><span>Figma</span></div>
+            </div>
+        </section>
+
+        <section id="portfolio">
+            <h2 class="section-title">Selected Projects</h2>
+            <div class="portfolio-grid">
+                <div class="project-card">
+                    <div class="project-img"><i class="fas fa-code fa-2x"></i></div>
+                    <div class="project-content">
+                        <h3>Web de Auditoría</h3>
+                        <p>Plataforma para el sector financiero con enfoque en seguridad y UX profesional.</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-img"><i class="fas fa-rocket fa-2x"></i></div>
+                    <div class="project-content">
+                        <h3>Portfolio Astro</h3>
+                        <p>Sitio estático de alto rendimiento optimizado para SEO.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2 class="section-title">Let's Connect</h2>
+            <div class="contact-form">
+                <form>
+                    <div class="form-group">
+                        <input type="text" placeholder="Nombre" required>
+                        <input type="email" placeholder="Email" required>
+                    </div>
+                    <textarea rows="5" placeholder="Cuéntame sobre tu próximo proyecto..." required></textarea>
+                    <button type="submit">Enviar Mensaje</button>
+                </form>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2026 | Desarrollado por Joselyn Michelle Mendoza Molina</p>
+            <div style="margin-top: 1rem; display: flex; justify-content: center; gap: 1.5rem; font-size: 1.2rem;">
+                <a href="#" style="color: var(--text-muted)"><i class="fab fa-github"></i></a>
+                <a href="#" style="color: var(--text-muted)"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const menu = document.getElementById('mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        menu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            // Animación simple de la hamburguesa
+            const spans = menu.querySelectorAll('span');
+            spans.forEach(span => span.classList.toggle('open'));
+        });
+
+        // Cerrar menú al navegar
+        document.querySelectorAll('.nav-links a').forEach(n => n.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+        }));
+    </script>
 </body>
 </html>
