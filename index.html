@@ -29,6 +29,18 @@
             overflow-x: hidden;
         }
 
+        /* --- ANIMACIONES DE REVELADO (SCROLL) --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         /* --- NAVEGACIÓN --- */
         nav {
             background: var(--nav-bg);
@@ -378,7 +390,7 @@
         }
 
         .project-img img {
-            width: 25%; 
+            width: 100%; 
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease;
@@ -458,7 +470,7 @@
     </nav>
 
     <div class="container">
-        <header>
+        <header class="reveal">
             <div class="hero-text">
                 <h1 class="hero-title">
                     <span data-i18n="hero-hi">Hi, I'm</span>
@@ -479,7 +491,7 @@
             </div>
         </header>
 
-        <section id="skills">
+        <section id="skills" class="reveal">
             <h2 class="section-title" data-i18n="skills-title">My Toolkit</h2>
             <div class="skills-container">
                 <div class="skills-illustration">
@@ -507,7 +519,7 @@
             </div>
         </section>
 
-        <section id="experience">
+        <section id="experience" class="reveal">
             <h2 class="section-title" data-i18n="experience-title">Experience</h2>
             <div class="timeline">
                 <div class="timeline-item left">
@@ -527,7 +539,7 @@
             </div>
         </section>
 
-        <section id="portfolio">
+        <section id="portfolio" class="reveal">
             <h2 class="section-title" data-i18n="projects-title">Selected Projects</h2>
             <div class="portfolio-grid">
                 <div class="project-card">
@@ -543,7 +555,7 @@
             </div>
         </section>
 
-        <section id="contact">
+        <section id="contact" class="reveal">
             <h2 class="section-title" data-i18n="contact-title">Let's start a new project</h2>
             <div class="contact-form">
                 <form action="https://api.web3forms.com/submit" method="POST">
@@ -574,6 +586,24 @@
     </div>
 
     <script>
+        // --- LÓGICA DE REVELADO AL HACER SCROLL ---
+        const observerOptions = {
+            threshold: 0.15 // Porcentaje visible para activar la animación
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    // Opcional: dejar de observar una vez animado
+                    // observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+
         const translations = {
             en: {
                 "nav-home": "Home", "nav-skills": "Skills", "nav-projects": "Projects", "nav-contact": "Contact", "nav-experience": "Experience",
@@ -583,7 +613,7 @@
                 "exp-gt-title": "Web Developer - GT Auditoría",
                 "exp-gt-desc": "Comprehensive development of the WordPress website and deployment management on Hostinger. Responsible for ongoing technical support, including security updates, backups, and performance optimization.",
                 "exp1-desc": "Specialized in building high-performance web applications and efficient technical solutions. Currently developing a specialized e-commerce platform for women's clothing sales.",
-                "contact-title": "Let's start a new project", "contact-btn": "Send Message", "footer-text": "Developed by", 
+                "contact-title": "Let's start a new project", "contact-btn": "Send Message", "footer-text": "Developed by",
                 "placeholder-name": "Name", "placeholder-email": "Email", "placeholder-phone": "Phone", "placeholder-subject": "Subject", "placeholder-msg": "Tell me about your next project..."
             },
             es: {
@@ -594,7 +624,7 @@
                 "exp-gt-title": "Desarrolladora Web - GT Auditoría",
                 "exp-gt-desc": "Desarrollo integral del sitio web en WordPress y gestión de despliegue en Hostinger. Responsable del soporte técnico continuo, incluyendo actualizaciones de seguridad, backups periódicos y optimización de rendimiento.",
                 "exp1-desc": "Especializada en la construcción de aplicaciones web de alto rendimiento y soluciones técnicas eficientes. Actualmente desarrollando una plataforma de comercio electrónico especializada para la venta de ropa para mujer.",
-                "contact-title": "Empecemos un nuevo proyecto", "contact-btn": "Enviar Mensaje", "footer-text": "Desarrollado por", 
+                "contact-title": "Empecemos un nuevo proyecto", "contact-btn": "Enviar Mensaje", "footer-text": "Desarrollado por",
                 "placeholder-name": "Nombre", "placeholder-email": "Correo", "placeholder-phone": "Teléfono", "placeholder-subject": "Asunto", "placeholder-msg": "Cuéntame sobre tu próximo proyecto..."
             }
         };
@@ -604,7 +634,6 @@
                 const key = element.getAttribute("data-i18n");
                 element.textContent = translations[lang][key];
             });
-            // Actualización de placeholders
             document.getElementById("input-name").placeholder = translations[lang]["placeholder-name"];
             document.getElementById("input-email").placeholder = translations[lang]["placeholder-email"];
             document.getElementById("input-phone").placeholder = translations[lang]["placeholder-phone"];
