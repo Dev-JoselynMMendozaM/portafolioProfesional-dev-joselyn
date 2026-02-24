@@ -41,6 +41,44 @@
             transform: translateY(0);
         }
 
+        /* --- NUEVOS ESTILOS PARA FILTROS --- */
+        .portfolio-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .filter-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent-gradient);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(217, 140, 179, 0.3);
+        }
+
+        /* Transición suave para las cards del portafolio */
+        .project-card {
+            transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.3s ease;
+        }
+
+        .project-card.hidden {
+            display: none;
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
         /* --- NAVEGACIÓN --- */
         nav {
             background: var(--nav-bg);
@@ -264,10 +302,6 @@
             .skills-illustration img { max-height: 300px; }
         }
 
-        /* --- SECCIONES --- */
-        section { padding: 4rem 0; }
-        .section-title { text-align: center; font-size: clamp(1.8rem, 5vw, 2.5rem); margin-bottom: 3rem; }
-
         .skills-grid { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
@@ -390,7 +424,7 @@
         }
 
         .project-img img {
-            width: 100%; 
+            width: 40%; 
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease;
@@ -442,6 +476,18 @@
         }
 
         footer { text-align: center; padding: 4rem 1.5rem; color: var(--text-muted); border-top: 1px solid var(--border-color); margin-top: 2rem; }
+
+        /* --- AJUSTE SOLICITADO: TÍTULOS --- */
+        section { padding: 5rem 0; }
+        .section-title { 
+            text-align: center; 
+            font-size: clamp(2.5rem, 8vw, 3.5rem); /* Más grandes */
+            margin-bottom: 4rem; 
+            width: 100%;
+            display: block;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
     </style>
 </head>
 <body>
@@ -491,9 +537,9 @@
             </div>
         </header>
 
-        <section id="skills" class="reveal">
-            <h2 class="section-title" data-i18n="skills-title">My Toolkit</h2>
-            <div class="skills-container">
+        <section id="skills">
+            <h2 class="section-title reveal" data-i18n="skills-title">My Toolkit</h2>
+            <div class="skills-container reveal">
                 <div class="skills-illustration">
                     <img src="https://i.ibb.co/nqpPYgH7/Gemini-Generated-Image-p0gmj0p0gmj0p0gm-removebg-preview.png" alt="Joselyn Mendoza Skills Illustration">
                 </div>
@@ -519,9 +565,9 @@
             </div>
         </section>
 
-        <section id="experience" class="reveal">
-            <h2 class="section-title" data-i18n="experience-title">Experience</h2>
-            <div class="timeline">
+        <section id="experience">
+            <h2 class="section-title reveal" data-i18n="experience-title">Experience</h2>
+            <div class="timeline reveal">
                 <div class="timeline-item left">
                     <div class="timeline-content">
                         <span class="timeline-date">2026 - Present</span>
@@ -539,10 +585,17 @@
             </div>
         </section>
 
-        <section id="portfolio" class="reveal">
-            <h2 class="section-title" data-i18n="projects-title">Selected Projects</h2>
-            <div class="portfolio-grid">
-                <div class="project-card">
+        <section id="portfolio">
+            <h2 class="section-title reveal" data-i18n="projects-title">Selected Projects</h2>
+            
+            <div class="portfolio-filters reveal">
+                <button class="filter-btn active" onclick="filterProjects('all')" data-i18n="filter-all">All</button>
+                <button class="filter-btn" onclick="filterProjects('edit')" data-i18n="filter-edit">Editing</button>
+                <button class="filter-btn" onclick="filterProjects('dev')" data-i18n="filter-dev">Programming</button>
+            </div>
+
+            <div class="portfolio-grid reveal">
+                <div class="project-card" data-category="dev">
                     <a href="https://gtauditara.com/" target="_blank" class="project-link-overlay"></a>
                     <div class="project-img">
                         <img src="https://i.ibb.co/Z6GnR3n3/GTAUDITARA-150x150.png" alt="Audit Web App">
@@ -552,12 +605,22 @@
                         <p data-i18n="proj1-desc">Financial sector platform focused on security and professional UX.</p>
                     </div>
                 </div>
+
+                <div class="project-card" data-category="edit">
+                    <div class="project-img">
+                        <i class="fas fa-clapperboard fa-3x" style="color:var(--accent-pink)"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3 data-i18n="proj-edit-title">Motion Design</h3>
+                        <p data-i18n="proj-edit-desc">Video editing and creative motion graphics for digital brands.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <section id="contact" class="reveal">
-            <h2 class="section-title" data-i18n="contact-title">Let's start a new project</h2>
-            <div class="contact-form">
+        <section id="contact">
+            <h2 class="section-title reveal" data-i18n="contact-title">Let's start a new project</h2>
+            <div class="contact-form reveal">
                 <form action="https://api.web3forms.com/submit" method="POST">
                     <input type="hidden" name="access_key" value="aea6bc6c-2ab4-4088-93f6-a801fa019044">
                     
@@ -587,43 +650,41 @@
 
     <script>
         // --- LÓGICA DE REVELADO AL HACER SCROLL ---
-        const observerOptions = {
-            threshold: 0.15 // Porcentaje visible para activar la animación
-        };
-
+        const observerOptions = { threshold: 0.15 };
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    // Opcional: dejar de observar una vez animado
-                    // observer.unobserve(entry.target);
-                }
-            });
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
         }, observerOptions);
-
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-
+        // --- TRADUCCIONES ---
         const translations = {
             en: {
                 "nav-home": "Home", "nav-skills": "Skills", "nav-projects": "Projects", "nav-contact": "Contact", "nav-experience": "Experience",
                 "hero-hi": "Hi, I'm ", "hero-role": "Full Stack Developer", "hero-subtitle": "Full Stack Developer and Systems Engineering student specialized in crafting high-performance web applications.",
-                "btn-cv": "Download CV", "skills-title": "My Toolkit", "experience-title": "Work Experience", "projects-title": "Selected Projects",
+                "btn-cv": "Download CV", 
+                "skills-title": "My Toolkit", 
+                "experience-title": "Work Experience", "projects-title": "Selected Projects",
+                "filter-all": "All", "filter-edit": "Editing", "filter-dev": "Programming",
                 "proj1-title": "Audit Web App", "proj1-desc": "Financial sector platform focused on security and professional UX.",
+                "proj-edit-title": "Motion Design", "proj-edit-desc": "Creative video editing for digital brands.",
                 "exp-gt-title": "Web Developer - GT Auditoría",
-                "exp-gt-desc": "Comprehensive development of the WordPress website and deployment management on Hostinger. Responsible for ongoing technical support, including security updates, backups, and performance optimization.",
-                "exp1-desc": "Specialized in building high-performance web applications and efficient technical solutions. Currently developing a specialized e-commerce platform for women's clothing sales.",
+                "exp-gt-desc": "Comprehensive development of the WordPress website and deployment management on Hostinger.",
+                "exp1-desc": "Specialized in building high-performance web applications.",
                 "contact-title": "Let's start a new project", "contact-btn": "Send Message", "footer-text": "Developed by",
                 "placeholder-name": "Name", "placeholder-email": "Email", "placeholder-phone": "Phone", "placeholder-subject": "Subject", "placeholder-msg": "Tell me about your next project..."
             },
             es: {
-                "nav-home": "Inicio", "nav-skills": "Skills", "nav-projects": "Proyectos", "nav-contact": "Contacto", "nav-experience": "Experiencia",
+                "nav-home": "Inicio", "nav-skills": "Habilidades", "nav-projects": "Proyectos", "nav-contact": "Contacto", "nav-experience": "Experiencia",
                 "hero-hi": "Hola, soy ", "hero-role": "Desarrolladora Full Stack", "hero-subtitle": "Desarrolladora Full Stack y estudiante de Ingeniería en Sistemas especializada en la creación de aplicaciones web de alto rendimiento.",
-                "btn-cv": "Descargar CV", "skills-title": "Mi Toolkit", "experience-title": "Experiencia Laboral", "projects-title": "Proyectos Seleccionados",
-                "proj1-title": "Web de Auditoría", "proj1-desc": "Plataforma para el sector financiero con enfoque en seguridad y UX profesional.",
+                "btn-cv": "Descargar CV", 
+                "skills-title": "Mi Kit de Herramientas",
+                "experience-title": "Experiencia Laboral", "projects-title": "Proyectos Seleccionados",
+                "filter-all": "Todos", "filter-edit": "Edición", "filter-dev": "Programación",
+                "proj1-title": "Web de Auditoría", "proj1-desc": "Plataforma para el sector financiero con enfoque en seguridad.",
+                "proj-edit-title": "Diseño de Movimiento", "proj-edit-desc": "Edición de video creativa para marcas digitales.",
                 "exp-gt-title": "Desarrolladora Web - GT Auditoría",
-                "exp-gt-desc": "Desarrollo integral del sitio web en WordPress y gestión de despliegue en Hostinger. Responsable del soporte técnico continuo, incluyendo actualizaciones de seguridad, backups periódicos y optimización de rendimiento.",
-                "exp1-desc": "Especializada en la construcción de aplicaciones web de alto rendimiento y soluciones técnicas eficientes. Actualmente desarrollando una plataforma de comercio electrónico especializada para la venta de ropa para mujer.",
+                "exp-gt-desc": "Desarrollo integral del sitio web en WordPress y gestión de despliegue en Hostinger.",
+                "exp1-desc": "Especializada en la construcción de aplicaciones web de alto rendimiento.",
                 "contact-title": "Empecemos un nuevo proyecto", "contact-btn": "Enviar Mensaje", "footer-text": "Desarrollado por",
                 "placeholder-name": "Nombre", "placeholder-email": "Correo", "placeholder-phone": "Teléfono", "placeholder-subject": "Asunto", "placeholder-msg": "Cuéntame sobre tu próximo proyecto..."
             }
@@ -636,13 +697,36 @@
             });
             document.getElementById("input-name").placeholder = translations[lang]["placeholder-name"];
             document.getElementById("input-email").placeholder = translations[lang]["placeholder-email"];
-            document.getElementById("input-phone").placeholder = translations[lang]["placeholder-phone"];
-            document.getElementById("input-subject").placeholder = translations[lang]["placeholder-subject"];
-            document.getElementById("input-message").placeholder = translations[lang]["placeholder-msg"];
             
             document.querySelectorAll(".lang-btn").forEach(btn => btn.classList.remove("active"));
             document.getElementById(`btn-${lang}`).classList.add("active");
             localStorage.setItem("preferredLang", lang);
+        }
+
+        // --- FILTRADO CON ANIMACIÓN ---
+        function filterProjects(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.getAttribute('onclick').includes(category)) btn.classList.add('active');
+            });
+
+            const projects = document.querySelectorAll('.project-card');
+            projects.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.9)';
+                
+                setTimeout(() => {
+                    if (category === 'all' || card.getAttribute('data-category') === category) {
+                        card.classList.remove('hidden');
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'scale(1)';
+                        }, 50);
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                }, 300);
+            });
         }
 
         const menu = document.getElementById('mobile-menu');
