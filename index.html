@@ -90,29 +90,6 @@
         @media (min-width: 1025px) { .container { padding: 0 70px; } }
 
         header { min-height: 85vh; display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding: 2rem 0; }
-        
-        /* AJUSTE RESPONSIVO PARA EL HEADER (MÓVIL) */
-        @media (max-width: 850px) {
-            header {
-                flex-direction: column; /* Coloca elementos en vertical */
-                text-align: center;
-                justify-content: center;
-            }
-            .hero-image {
-                order: -1; /* Mueve la imagen arriba del texto */
-                margin-bottom: 1.5rem;
-            }
-            .hero-image img {
-                max-height: px; /* Ajusta el tamaño de la imagen en móvil */
-            }
-            .hero-text {
-                text-align: center;
-            }
-            .hero-socials {
-                justify-content: center;
-            }
-        }
-
         .hero-text { flex: 1.2; text-align: left; }
         .hero-title { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; line-height: 1.1; margin: 0; color: var(--text-main2); }
         .hero-role { font-size: clamp(2.5rem, 7vw, 5rem); margin: 0.5rem 0; font-weight: 700; color: transparent; -webkit-text-stroke: 1px var(--text-main); letter-spacing: 2px; text-transform: capitalize; }
@@ -125,7 +102,29 @@
         .hero-image { flex: 0.8; display: flex; justify-content: center; align-items: center; }
         .hero-image img { max-width: 100%; height: auto; max-height: 650px; filter: drop-shadow(0 10px 20px rgba(147, 42, 173, 0.918)); animation: float 6s ease-in-out infinite; }
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0px); } }
-        
+        @media (max-width: 850px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+                justify-content: center;
+            }
+            .hero-image {
+                order: -1; 
+                margin-bottom: 1.5rem;
+            }
+            .hero-image img {
+                width: 200px; /* Tamaño solicitado */
+                height: auto;
+                max-height: none;
+            }
+            .hero-text {
+                text-align: center;
+            }
+            .hero-socials {
+                justify-content: center;
+            }
+        }
+
         section { padding: 5rem 0; }
         .section-title { text-align: center; font-size: clamp(2.5rem, 8vw, 3.5rem); margin-bottom: 4rem; width: 100%; display: block; font-weight: 800; letter-spacing: -1px; }
 
@@ -350,7 +349,7 @@
     </div>
 
     <script>
-        // --- ANIMACIÓN PROFESIONAL CON GSAP ---
+        // --- ANIMACIÓN PROFESIONAL RESPONSIVA ---
         window.addEventListener('load', () => {
             const tl = gsap.timeline();
             const isMobile = window.innerWidth < 768;
@@ -364,14 +363,13 @@
                 delay: 0.8          
             });
 
-            // Aparece el contenido mientras ocurre el zoom
+            // Revelar contenido durante el zoom
             tl.to("#main-content", {
                 duration: 1.5,
                 opacity: 1,
                 ease: "power2.out"
             }, "-=1.8");
 
-            // Limpieza final y activación de revelado del header
             tl.add(() => {
                 document.getElementById('loader-wrapper').style.display = 'none';
                 document.body.classList.remove('loading');
@@ -451,8 +449,10 @@
         });
 
         // Carga inicial
-        const savedLang = localStorage.getItem("preferredLang") || "en";
-        setLanguage(savedLang);
+        window.addEventListener('load', () => {
+            const savedLang = localStorage.getItem("preferredLang") || "en";
+            setLanguage(savedLang);
+        });
     </script>
 </body>
 </html>
